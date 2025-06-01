@@ -3,9 +3,15 @@ import mysql.connector
 
 # Load CSV
 df = pd.read_csv('/Users/bhavithaasam/Desktop/Projects/diabetes_sql_project/dataset and article/diabetic_data.csv')
-df.columns = df.columns.str.strip().str.lower().str.replace(' ', '_').str.replace('[^a-zA-Z0-9_]', '')
+# Clean column names
+df.columns = df.columns.str.strip().str.lower().str.replace(' ', '_').str.replace('-', '_').str.replace('[^a-zA-Z0-9_]', '')
 
-# Inspect unique gender values and their lengths (debugging tip)
+# Replace 'Unknown/Invalid' in gender
+df['gender'] = df['gender'].replace({'Unknown/Invalid': 'Unknown'})
+
+# Replace NaN with None to insert as NULL in SQL
+df = df.where(pd.notnull(df), None)
+
 print(df['gender'].unique())
 
 conn = mysql.connector.connect(
@@ -17,7 +23,7 @@ conn = mysql.connector.connect(
 
 cursor = conn.cursor()
 
-# Fix CREATE TABLE with correct column lengths
+# CREATE TABLE
 create_table_query = """
 CREATE TABLE IF NOT EXISTS diabetic_data (
     encounter_id BIGINT,
@@ -30,37 +36,66 @@ CREATE TABLE IF NOT EXISTS diabetic_data (
     discharge_disposition_id INT,
     admission_source_id INT,
     time_in_hospital INT,
-    readmitted VARCHAR(10)
+    payer_code VARCHAR(20),
+    medical_specialty VARCHAR(50),
+    num_lab_procedures INT,
+    num_procedures INT,
+    num_medications INT,
+    number_outpatient INT,
+    number_emergency INT,
+    number_inpatient INT,
+    diag_1 VARCHAR(10),
+    diag_2 VARCHAR(10),
+    diag_3 VARCHAR(10),
+    number_diagnoses INT,
+    max_glu_serum VARCHAR(20),
+    a1cresult VARCHAR(20),
+    metformin VARCHAR(20),
+    repaglinide VARCHAR(20),
+    nateglinide VARCHAR(20),
+    chlorpropamide VARCHAR(20),
+    glimepiride VARCHAR(20),
+    acetohexamide VARCHAR(20),
+    glipizide VARCHAR(20),
+    glyburide VARCHAR(20),
+    tolbutamide VARCHAR(20),
+    pioglitazone VARCHAR(20),
+    rosiglitazone VARCHAR(20),
+    acarbose VARCHAR(20),
+    miglitol VARCHAR(20),
+    troglitazone VARCHAR(20),
+    tolazamide VARCHAR(20),
+    examide VARCHAR(20),
+    citoglipton VARCHAR(20),
+    insulin VARCHAR(20),
+    glyburide_metformin VARCHAR(20),
+    glipizide_metformin VARCHAR(20),
+    glimepiride_pioglitazone VARCHAR(20),
+    metformin_rosiglitazone VARCHAR(20),
+    metformin_pioglitazone VARCHAR(20),
+    `change` VARCHAR(20),
+    diabetesmed VARCHAR(20),
+    readmitted VARCHAR(20)
 );
 """
 cursor.execute(create_table_query)
-
-# Commit and close cursor for table creation
 conn.commit()
 
-# Prepare insert query
-insert_query = """
-INSERT INTO diabetic_data (encounter_id, patient_nbr, race, gender, age, weight,
-                           admission_type_id, discharge_disposition_id,
-                           admission_source_id, time_in_hospital)
-VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-"""
-# Clean the gender column: replace 'Unknown/Invalid' with 'Unknown' or 'Other'
-df['gender'] = df['gender'].replace({'Unknown/Invalid': 'Unknown'})
+# Prepare list of tuples for all rows
+columns = ', '.join([f"`{col}`" for col in df.columns])
+placeholders = ', '.join(['%s'] * len(df.columns))
+insert_query = f"INSERT INTO diabetic_data ({columns}) VALUES ({placeholders})"
+data_tuples = [tuple(row) for row in df.values]
 
-# Insert data row by row
-for _, row in df.iterrows():
-    try:
-        cursor.execute(insert_query, tuple(row[:10]))
-    except Exception as e:
-        print(f"Error inserting row: {row[:10]}, Error: {e}")
+try:
+    cursor.executemany(insert_query, data_tuples)
+    conn.commit()
+except Exception as e:
+    print(f"Error during bulk insert: {e}")
 
-conn.commit()
 cursor.close()
 conn.close()
 
 print("Data loaded into MySQL!")
-
-# Display first few rows and columns info
 df.info()
-df.head()
+print(df.head())
