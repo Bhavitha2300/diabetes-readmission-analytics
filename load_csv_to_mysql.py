@@ -3,30 +3,32 @@ import mysql.connector
 
 # Load CSV
 df = pd.read_csv('/Users/bhavithaasam/Desktop/Projects/diabetes_sql_project/dataset and article/diabetic_data.csv')
-# Clean column names
 df.columns = df.columns.str.strip().str.lower().str.replace(' ', '_').str.replace('-', '_').str.replace('[^a-zA-Z0-9_]', '')
 
 # Replace 'Unknown/Invalid' in gender
 df['gender'] = df['gender'].replace({'Unknown/Invalid': 'Unknown'})
 
-# Replace NaN with None to insert as NULL in SQL
+# Replace NaN with None
 df = df.where(pd.notnull(df), None)
 
-print(df['gender'].unique())
+print("Unique genders:", df['gender'].unique())
 
+# Connect to MySQL
 conn = mysql.connector.connect(
     host='localhost',
     user='root',
     password='baBBy@77007700',
     database='diabetes_project'
 )
-
 cursor = conn.cursor()
 
-# CREATE TABLE
+# Step 1: Drop the table if it exists
+cursor.execute("DROP TABLE IF EXISTS diabetic_data;")
+
+# Step 2: Create the table with PRIMARY KEY
 create_table_query = """
-CREATE TABLE IF NOT EXISTS diabetic_data (
-    encounter_id BIGINT,
+CREATE TABLE diabetic_data (
+    encounter_id BIGINT PRIMARY KEY,
     patient_nbr BIGINT,
     race VARCHAR(50),
     gender VARCHAR(30),
@@ -81,7 +83,7 @@ CREATE TABLE IF NOT EXISTS diabetic_data (
 cursor.execute(create_table_query)
 conn.commit()
 
-# Prepare list of tuples for all rows
+# Step 3: Insert data
 columns = ', '.join([f"`{col}`" for col in df.columns])
 placeholders = ', '.join(['%s'] * len(df.columns))
 insert_query = f"INSERT INTO diabetic_data ({columns}) VALUES ({placeholders})"
@@ -90,12 +92,14 @@ data_tuples = [tuple(row) for row in df.values]
 try:
     cursor.executemany(insert_query, data_tuples)
     conn.commit()
+    print("Data loaded into MySQL successfully!")
 except Exception as e:
     print(f"Error during bulk insert: {e}")
 
+# Step 4: Close connections
 cursor.close()
 conn.close()
 
-print("Data loaded into MySQL!")
+# Step 5: Display DataFrame info
 df.info()
 print(df.head())
