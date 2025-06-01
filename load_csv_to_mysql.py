@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS diabetic_data (
     encounter_id BIGINT,
     patient_nbr BIGINT,
     race VARCHAR(50),
-    gender VARCHAR(20),  -- Increased length
+    gender VARCHAR(30),
     age VARCHAR(20),
     weight VARCHAR(20),
     admission_type_id INT,
@@ -45,6 +45,8 @@ INSERT INTO diabetic_data (encounter_id, patient_nbr, race, gender, age, weight,
                            admission_source_id, time_in_hospital)
 VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
 """
+# Clean the gender column: replace 'Unknown/Invalid' with 'Unknown' or 'Other'
+df['gender'] = df['gender'].replace({'Unknown/Invalid': 'Unknown'})
 
 # Insert data row by row
 for _, row in df.iterrows():
@@ -58,3 +60,7 @@ cursor.close()
 conn.close()
 
 print("Data loaded into MySQL!")
+
+# Display first few rows and columns info
+df.info()
+df.head()
