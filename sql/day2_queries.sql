@@ -24,3 +24,33 @@ SELECT COUNT(*) AS number_of_patients_aged_70_80_readmitted_less_than_thirty_day
 
 -- Count how many patients had weight = '?' (missing weight).
 SELECT COUNT(*) AS total_patients_with_missing_weight FROM diabetic_data WHERE weight = '?';
+
+-- Find the maximum, minimum, and average number of medications (num_medications) per admission.
+SELECT MAX(num_medications) AS max_medications, MIN(num_medications) AS min_medications, AVG(num_medications) AS avg_num_medications FROM diabetic_data;
+
+-- List the top 5 medical specialties by total number of admissions.
+SELECT medical_specialty, COUNT(*) AS total_admissions_by_speciality FROM diabetic_data GROUP BY medical_specialty ORDER BY total_admissions_by_speciality DESC LIMIT 5;
+
+-- Calculate the total number of admissions where payer_code is 'MC' (Medicare).
+SELECT COUNT(*) AS total_admissions_with_medicare FROM diabetic_data WHERE payer_code = 'MC';
+
+-- Find the percentage of patients with missing weight (where weight = '?') out of total admissions.
+SELECT ( (SELECT COUNT(*) FROM diabetic_data WHERE weight = '?') * 100.0/ (SELECT COUNT(*) FROM diabetic_data)) AS percent_of_admissions_with_missing_weight;
+
+-- List the number of admissions by payer_code in descending order.
+SELECT payer_code, COUNT(*) AS total_admissions_by_payer_code FROM diabetic_data GROUP BY payer_code ORDER BY total_admissions_by_payer_code  DESC;
+
+-- Calculate the total number of distinct diag_1 codes (primary diagnoses).
+SELECT COUNT(DISTINCT diag_1) AS total_num_of_diag_1_codes FROM diabetic_data;
+
+-- Count how many patients had an a1cresult of '>8'.
+SELECT COUNT(*) AS patients_with_a1cresult_more_8 FROM diabetic_data WHERE A1cresult = '>8';
+
+-- Find the average time_in_hospital for each discharge_disposition_id.
+SELECT discharge_disposition_id, AVG(time_in_hospital) AS average_time_in_hospital FROM diabetic_data GROUP BY discharge_disposition_id;
+
+-- Identify the age group with the highest average num_medications.
+SELECT age, AVG(num_medications) AS avg_num_medications FROM diabetic_data GROUP BY age ORDER BY avg_num_medications DESC LIMIT 1;
+
+-- List the number of patients who received 'Steady' insulin treatment.
+SELECT COUNT(*) AS number_of_patients_with_insulin_steady_treatment FROM diabetic_data WHERE insulin = 'Steady';
