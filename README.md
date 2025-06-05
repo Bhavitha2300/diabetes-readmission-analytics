@@ -1,44 +1,61 @@
-# Hospital Admissions Dashboard 
+# Hospital Admissions Dashboard
 
-A SQL + Power BI project analyzing diabetic patient admissions and readmissions.
+**A SQL + Tableau (and Power BI coming soon) project analyzing diabetic patient admissions and readmissions.**
 
-##  Data Source
-This project uses the [Diabetes 130 US hospitals for years 1999–2008 dataset](https://www.kaggle.com/datasets/brandao/diabetes) from Kaggle.  
-The dataset contains hospital records of diabetic patients and includes readmission data, patient demographics, and hospital outcomes.
+## Data Source
 
-##  Features
-- Analysis of readmission rates (within 30 days vs. no readmission)
-- Average length of stay (LOS) by diagnosis and demographic factors
-- Top diagnoses contributing to readmissions
-- Dynamic filters: age, gender, race, admission type
-- Data cleaning and loading into MySQL
-- SQL queries for analysis
-- Power BI dashboard for visual storytelling (coming soon)
+This project uses the **[Diabetes 130 US hospitals for years 1999–2008](https://www.kaggle.com/datasets/whenamancodes/diabetes-prediction-dataset)** dataset from Kaggle.  
+It contains hospital records of diabetic patients, including demographics, diagnoses, readmission outcomes, and length of stay.
 
-##  Tools Used
-- Python (for data preprocessing and loading)
-- MySQL (for data storage and querying)
-- Power BI (for dashboard creation)
-- GitHub (for version control and project management)
+## Features
 
-##  Next Steps
-- Add SQL scripts for deeper analysis (e.g., readmission risk scoring)
-- Build Power BI visualizations to present insights
-- Incorporate dynamic filtering (age group, race, gender)
-- Export results to Tableau Public for broader sharing
-- Implement a predictive model (Python) for readmission likelihood
+- Analysis of readmission rates:  
+  — Within 30 days vs. after 30 days vs. no readmission  
+- Average length of stay by diagnosis and demographic factors  
+- Top diagnoses contributing to readmissions  
+- Interactive filters (age, gender, race, admission type)
+- Data cleaning with Python & loading into MySQL
+- SQL queries for healthcare insights
+- Tableau dashboard for visual storytelling  
+- Power BI version coming soon
 
-##  Project Structure
+## Tools Used
+
+- **Python** – preprocessing & CSV → MySQL
+- **MySQL** – data storage & analysis
+- **Tableau Public** – data visualization & dashboard creation
+- **Power BI** – *in progress*
+- **GitHub** – version control
+
+## Tableau Dashboard
+
+Explore the interactive dashboard here:  
+[**Diabetes Readmission Dashboard** on Tableau Public](https://public.tableau.com/app/profile/bhavitha.asam6391/viz/DiabetesReadmissionDashboard/Dashboard1)
+
+Includes:
+- Readmission Breakdown Bar Chart
+- Readmission by Gender
+- Average Hospital Stay by Age Group
+
+## Project Structure
 
 diabetes-readmission-analytics/
 ├── data/ # Raw & cleaned data files
 ├── sql/ # SQL scripts (schema, cleaning, analysis)
-├── dashboard/ # Power BI dashboard files
+├── dashboard/ # Power BI or Tableau packaged files
 ├── screenshots/ # Images of dashboard views
-├── load_csv_to_mysql.py # Python script to load CSV into MySQL
-├── README.md # Project documentation (this file)
-└── .gitignore # Files and folders to ignore in Git
+├── load_csv_to_mysql.py# Script to load CSV into MySQL
+├── README.md # This file
+└── .gitignore
 
-##  References
-- [Diabetes 130 US hospitals for years 1999–2008 dataset on Kaggle](https://www.kaggle.com/datasets/brandao/diabetes)
+## Next Steps
 
+- [ ] Add SQL scripts for deeper clinical analysis (e.g., risk scoring)
+- [ ] Complete Power BI visualizations
+- [x] Export and publish insights to Tableau Public
+- [ ] Implement predictive modeling (Python): readmission likelihood
+- [ ] Include Docker or Jupyter support (optional)
+
+## References
+
+- [Diabetes 130 US hospitals dataset](https://www.kaggle.com/datasets/brandao/diabetes) on Kaggle
