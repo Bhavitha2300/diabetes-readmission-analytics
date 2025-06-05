@@ -103,3 +103,8 @@ conn.close()
 # Step 5: Display DataFrame info
 df.info()
 print(df.head())
+
+
+# Export the cleaned DataFrame to CSV for Tableau or Power BI use
+df.to_csv("diabetic_data_cleaned.csv", index=False)
+print("Cleaned data exported to diabetic_data_cleaned.csv")
