@@ -33,18 +33,16 @@ Hospital readmissions are costly and often preventable. Identifying high-risk di
 ## Project Structure
 
 diabetes-readmission-analytics/
-├── data/ # Raw and cleaned CSV files
-├── sql/ # SQL scripts for analysis
-├── notebooks/ # Jupyter notebooks (EDA, modeling)
-├── models/ # Trained ML models (coming)
-├── streamlit_app/ # Streamlit app for prediction (coming)
-├── dashboard/ # Tableau dashboard files
-├── screenshots/ # Images for README & demo
-├── docker/ # Docker setup (coming)
-├── load_csv_to_mysql.py # Script to load CSV into MySQL
-├── README.md # Project documentation
+├── data/                  # Raw and cleaned CSV files
+├── sql/                   # SQL scripts for analysis
+├── notebooks/             # Jupyter notebooks (EDA, modeling)
+├── models/                # Trained ML models
+├── streamlit_app/         # Streamlit app for prediction
+├── screenshots/           # Images of Tableau visualizations (used instead of dashboard)
+├── docker/                # Docker setup 
+├── load_csv_to_mysql.py   # Script to load CSV into MySQL
+├── README.md              # Project documentation
 └── .gitignore
-
 
 ---
 
@@ -76,16 +74,21 @@ Includes:
 
 ---
 
-## Next Steps
+## Visualizations
 
-- [ ] Build a machine learning model to predict 30-day readmission risk
-- [ ] Develop a Streamlit app for interactive prediction
-- [ ] Dockerize the data pipeline for reproducibility
-- [ ] Automate workflows using GitHub Actions
-- [x] Clean and analyze healthcare data with Python and SQL
-- [x] Design and publish Tableau dashboard
+Due to Tableau Public limitations with data extracts, the dashboard was documented using screenshots.
 
----
+All Tableau visualizations are included in the `screenshots/` folder:
+- `readmission_breakdown.png` – Readmission categories
+- `readmission_by_gender.png` – Gender-wise breakdown
+- `average_stay_by_age.png` – Avg. hospital stay by age group
+- `readmission_by_age_and_gender.png` – Combined analysis by age and gender
+- `insulin_vs_readmission.png` – Impact of insulin levels
+- `top10_diagnoses_diag1.png` – Top primary diagnoses (Diag 1)
+- `top10_diagnoses_diag2.png` – Top primary diagnoses (Diag 2)
+- `top10_diagnoses_diag3.png` – Top primary diagnoses (Diag 3)
+
+These images represent Tableau dashboards and can be reused in reports, the Streamlit app, or presentations.
 
 ## References
 
