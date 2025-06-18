@@ -3,3 +3,4 @@ __pycache__/
 *.log
 *.csv
 *.env
+!streamlit_app/diabetic_data_cleaned.csv
