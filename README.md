@@ -26,6 +26,7 @@ Hospital readmissions are costly and often preventable. Identifying high-risk di
 | **Python**        | Data cleaning, feature engineering, MySQL loading |
 | **MySQL**         | Structured querying and healthcare analysis       |
 | **Tableau Public**| Interactive dashboards for readmission insights  |
+| **Streamlit**     | Interactive web app for patient-level insights    |
 | **GitHub**        | Version control and documentation                 |
 
 ---
@@ -37,7 +38,7 @@ diabetes-readmission-analytics/
 ├── sql/ # SQL scripts for analysis
 ├── notebooks/ # Jupyter notebooks (EDA, modeling)
 ├── models/ # Trained ML models (coming)
-├── streamlit_app/ # Streamlit app for prediction (coming)
+├── streamlit_app/ # Streamlit app for exploration
 ├── dashboard/ # Tableau dashboard files (.twbx)
 ├── screenshots/ # Images for README & demo
 ├── docker/ # Docker setup (coming)
@@ -50,50 +51,62 @@ diabetes-readmission-analytics/
 
 ## Key Features & Analysis
 
-- **Readmission Analysis**:
-  - Breakdown of patients readmitted within 30 days, after 30 days, or not at all
-  - Demographic analysis by gender, age, race, and admission type
+###  Readmission Analysis:
+- Breakdown by time (`<30 days`, `>30 days`, `No Readmission`)
+- Filters by **Age** and **Gender**
+- Interactive visual insights powered by Plotly
 
-- **Hospital Metrics**:
-  - Average length of stay across age groups
-  - Top diagnoses and medication categories
-  - Discharge disposition patterns and insulin impact
+###  Hospital Metrics:
+- Average length of stay for selected groups
+- Top diagnoses (Diag 1) for filtered patients
 
-- **Visualization Tools**:
-  - Tableau dashboards for high-level storytelling
-  - Snapshot images for embedding in notebooks or apps
+###  Visualization Tools:
+- **Tableau** dashboards for high-level exploration
+- **Streamlit** app for real-time drilldown
 
 ---
 
-## Interactive Tableau Dashboards
+##  Live Demo (Streamlit App)
 
-Explore live dashboards on **Tableau Public**:
+> Explore the interactive readmission risk dashboard built using Streamlit:
+**[Launch App on Streamlit Cloud](https://share.streamlit.io/your-app-link)**  
+_(Replace the link with your actual deployment URL)_
+
+**Features:**
+- Sidebar filters for Age Group & Gender
+- Live bar charts for readmission categories
+- Instant average time-in-hospital metric
+- Dynamic top diagnoses visualization
+- Clean UI with Plotly and container-width layout
+
+---
+
+##  Tableau Dashboards
+
+Explore published dashboards for data storytelling:
 
 - [Diabetes Readmission Dashboard](https://public.tableau.com/app/profile/bhavitha.asam6391/viz/DiabetesReadmissionDashboard/Dashboard1)
 - [Diabetes Readmission Overview](https://public.tableau.com/app/profile/bhavitha.asam6391/viz/Diabetesreadmissionoverview/Dashboard1)
 
 ---
 
-## Visualizations (Screenshots)
+##  Visualizations (Screenshots)
 
-If using Tableau Public prevents extract creation, dashboards are still accessible visually.
-
-All relevant visualizations are included in the `screenshots/` folder:
+Screenshots are available under the `screenshots/` directory for quick reference:
 
 - `readmission_breakdown.png` – Readmission categories
 - `readmission_by_gender.png` – Gender-wise breakdown
 - `average_stay_by_age.png` – Avg. hospital stay by age group
-- `readmission_by_age_and_gender.png` – Combined age-gender analysis
-- `insulin_vs_readmission.png` – Effect of insulin levels
-- `top10_diagnoses_diag1.png` – Top diagnoses (Diag 1)
-- `top10_diagnoses_diag2.png` – Top diagnoses (Diag 2)
-- `top10_diagnoses_diag3.png` – Top diagnoses (Diag 3)
-
-These screenshots are used in reports, README, or the Streamlit app.
+- `readmission_by_age_and_gender.png` – Combined analysis
+- `insulin_vs_readmission.png` – Impact of insulin levels
+- `top10_diagnoses_diag1.png`, `diag2.png`, `diag3.png` – Diagnoses insights
 
 ---
 
-## References
+##  Requirements
 
-- [Diabetes 130 US Hospitals Dataset (Kaggle)](https://www.kaggle.com/datasets/whenamancodes/diabetes-prediction-dataset)
+To run the Streamlit app locally:
 
+```bash
+pip install -r requirements.txt
+streamlit run streamlit_app/app.py
